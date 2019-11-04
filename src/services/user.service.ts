@@ -3,11 +3,7 @@ import { computed, observable, reaction } from 'mobx';
 import { useDisposable } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { IRootService } from './root-sevice.interface';
-
-export interface IUser {
-  id: number;
-  email: string;
-}
+import { IUser } from '../models/user.model';
 
 export class UserService implements IRootService {
   @observable public loading = true;
@@ -34,17 +30,20 @@ export class UserService implements IRootService {
     useDisposable(() => reaction(() => this.data.user, callback));
   }
 
+  // Constructor
   public useHook() {
-    useEffect(() => {
-      this.setLoading(true);
+    useEffect(() => this.checkAuth(), []);
+  }
 
-      // TODO: make auth
-      this.data.user = {
-        id: -1,
-        email: 'user@mail.com'
-      };
+  public checkAuth() {
+    this.setLoading(true);
 
-      this.setLoading(false);
-    }, []);
+    // TODO: make auth
+    this.data.user = {
+      id: -1,
+      email: 'user@mail.com'
+    };
+
+    this.setLoading(false);
   }
 }

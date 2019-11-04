@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Helmet from 'react-helmet';
-import { useInstances, provider } from 'react-ioc';
+import { provider, useInstance } from 'react-ioc';
 
 import { observer } from 'mobx-react';
 import Loading from '../components/loading';
@@ -8,21 +8,22 @@ import Loading from '../components/loading';
 import { IRootService } from '../services/root-sevice.interface';
 import { UserService } from '../services/user.service';
 
-const services: any[] = [UserService];
+const services: Array<(new () => IRootService) | (new () => object)> = [UserService];
 
+// Fox mobile devices & electron apps to get real height
 const updateVH = () => {
   const vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);
 };
 
-const IndexLayout: React.FC = ({ children, ...props }) => {
+const useRootHook = (props: any) => {
   React.useEffect(() => {
     updateVH();
     window.addEventListener('resize', updateVH);
     return () => window.removeEventListener('resize', updateVH);
   }, []);
 
-  const instances: IRootService[] = useInstances(...services); // monkey patch
+  const instances: IRootService[] = services.map(service => useInstance(service));
 
   let loading = false;
 
@@ -33,14 +34,17 @@ const IndexLayout: React.FC = ({ children, ...props }) => {
     }
   });
 
+  return loading;
+};
+
+const IndexLayout: React.FC = ({ children, ...props }) => {
+  const loading = useRootHook(props);
+
   return (
     <>
       <Helmet title="App Name" meta={[{ name: 'description', content: 'Desctiption' }, { name: 'keywords', content: 'keyword' }]} />
-
       {children}
-
       <Loading active={loading} />
-
       <style global jsx>{`
         body {
           position: fixed;

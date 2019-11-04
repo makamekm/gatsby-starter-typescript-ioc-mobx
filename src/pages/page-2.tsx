@@ -7,7 +7,7 @@ const PageTwo = () => (
     <p>Welcome to page 2</p>
     <ul>
       <li>
-        <Link to="/a-markdown-page/">Show me some Markdown!</Link>
+        <Link to="/not_found/">Show me 404!</Link>
       </li>
       <li>
         <Link to="/">Take me back home.</Link>
