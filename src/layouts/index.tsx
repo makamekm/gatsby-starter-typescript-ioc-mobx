@@ -1,45 +1,45 @@
-import * as React from 'react'
-import Helmet from 'react-helmet'
-import { useInstances, provider } from 'react-ioc'
+import * as React from 'react';
+import Helmet from 'react-helmet';
+import { useInstances, provider } from 'react-ioc';
 
-import Loading from '../components/loading'
+import { observer } from 'mobx-react';
+import Loading from '../components/loading';
 
-import { IRootService } from '../services/root-sevice.interface'
-import { UserService } from '../services/user.service'
-import { observer } from 'mobx-react'
+import { IRootService } from '../services/root-sevice.interface';
+import { UserService } from '../services/user.service';
 
-const services: any[] = [UserService]
+const services: any[] = [UserService];
 
 const updateVH = () => {
-  const vh = window.innerHeight * 0.01
-  document.documentElement.style.setProperty('--vh', `${vh}px`)
-}
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+};
 
 const IndexLayout: React.FC = ({ children, ...props }) => {
   React.useEffect(() => {
-    updateVH()
-    window.addEventListener('resize', updateVH)
-    return () => window.removeEventListener('resize', updateVH)
-  }, [])
+    updateVH();
+    window.addEventListener('resize', updateVH);
+    return () => window.removeEventListener('resize', updateVH);
+  }, []);
 
-  const instances: IRootService[] = useInstances(...services) // monkey patch
+  const instances: IRootService[] = useInstances(...services); // monkey patch
 
-  let loading = false
+  let loading = false;
 
   instances.forEach(instance => {
     if (instance.useHook) {
-      instance.useHook(props)
-      loading = loading || instance.loading
+      instance.useHook(props);
+      loading = loading || instance.loading;
     }
-  })
+  });
 
   return (
     <>
-      <Helmet title={'App Name'} meta={[{ name: 'description', content: 'Desctiption' }, { name: 'keywords', content: 'keyword' }]} />
+      <Helmet title="App Name" meta={[{ name: 'description', content: 'Desctiption' }, { name: 'keywords', content: 'keyword' }]} />
 
       {children}
 
-      <Loading active={loading}></Loading>
+      <Loading active={loading} />
 
       <style global jsx>{`
         body {
@@ -54,7 +54,7 @@ const IndexLayout: React.FC = ({ children, ...props }) => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default provider(...services)(observer(IndexLayout))
+export default provider(...services)(observer(IndexLayout));

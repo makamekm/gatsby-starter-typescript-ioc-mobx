@@ -24,9 +24,9 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
-    "babel-preset-gatsby": "0.2.20",
-    "@babel/plugin-proposal-optional-chaining": "7.6.0",
-    "@babel/plugin-proposal-decorators": "7.6.0",
+    "babel-preset-gatsby": "^0.2.20",
+    "@babel/plugin-proposal-optional-chaining": "^7.6.0",
+    "@babel/plugin-proposal-decorators": "^7.6.0",
     "classnames": "^2.2.6",
     "debounce": "^1.2.0",
     "gatsby": "^2.10.0",
@@ -36,6 +36,7 @@
     "gatsby-plugin-styled-jsx": "^3.1.12",
     "gatsby-plugin-layout": "^1.1.13",
     "mobx": "^5.14.2",
+    "mobx-react-lite": "^1.5.0",
     "mobx-react": "^6.1.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

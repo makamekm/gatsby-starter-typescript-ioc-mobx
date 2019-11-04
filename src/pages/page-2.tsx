@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { Link } from 'gatsby'
+import * as React from 'react';
+import { Link } from 'gatsby';
 
 const PageTwo = () => (
   <>
@@ -14,6 +14,6 @@ const PageTwo = () => (
       </li>
     </ul>
   </>
-)
+);
 
-export default PageTwo
+export default PageTwo;

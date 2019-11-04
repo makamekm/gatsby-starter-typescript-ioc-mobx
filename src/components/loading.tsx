@@ -1,13 +1,13 @@
-import React, { memo } from 'react'
-import classNames from 'classnames'
+import React, { memo } from 'react';
+import classNames from 'classnames';
 
 const Loading = ({ active }: { active: boolean }) => (
   <div className={classNames('loading', { 'is-active': active })}>
     <div className="spinner">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+      <div />
+      <div />
+      <div />
+      <div />
     </div>
     <style jsx>{`
       .loading {
@@ -67,6 +67,6 @@ const Loading = ({ active }: { active: boolean }) => (
       }
     `}</style>
   </div>
-)
+);
 
-export default memo(Loading)
+export default memo(Loading);

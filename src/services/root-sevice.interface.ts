@@ -1,4 +1,4 @@
 export interface IRootService {
-  loading?: boolean
-  useHook?(props: any): void
+  loading?: boolean;
+  useHook?(props: any): void;
 }

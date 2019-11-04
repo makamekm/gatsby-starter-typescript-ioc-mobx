@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { Link } from 'gatsby'
+import * as React from 'react';
+import { Link } from 'gatsby';
 
 const NotFoundPage = () => (
   <>
@@ -8,6 +8,6 @@ const NotFoundPage = () => (
       You've hit the void. <Link to="/">Go back.</Link>
     </p>
   </>
-)
+);
 
-export default NotFoundPage
+export default NotFoundPage;

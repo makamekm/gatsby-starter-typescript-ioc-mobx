@@ -1,5 +1,5 @@
-import React, { memo } from 'react'
-import classNames from 'classnames'
+import React, { memo } from 'react';
+import classNames from 'classnames';
 
 const Panel = ({
   children,
@@ -7,12 +7,11 @@ const Panel = ({
   color,
   style
 }: {
-  children: any
-  className?: string
-  color?: string
-  style?: React.CSSProperties
+  children: any;
+  className?: string;
+  color?: string;
+  style?: React.CSSProperties;
 }) => {
-  color = color || 'tomato'
   return (
     <div className={classNames('panel', className)} style={style}>
       {children}
@@ -20,7 +19,7 @@ const Panel = ({
       <style jsx>{`
         .panel {
           padding: 20px;
-          background-color: ${color};
+          background-color: ${color || 'tomato'};
           color: white;
           font-weight: 800;
           border-radius: 5px;
@@ -28,7 +27,7 @@ const Panel = ({
         }
       `}</style>
     </div>
-  )
-}
+  );
+};
 
-export default memo(Panel)
+export default memo(Panel);
