@@ -1,0 +1,34 @@
+import React, { memo } from 'react'
+import classNames from 'classnames'
+
+const Panel = ({
+  children,
+  className,
+  color,
+  style
+}: {
+  children: any
+  className?: string
+  color?: string
+  style?: React.CSSProperties
+}) => {
+  color = color || 'tomato'
+  return (
+    <div className={classNames('panel', className)} style={style}>
+      {children}
+
+      <style jsx>{`
+        .panel {
+          padding: 20px;
+          background-color: ${color};
+          color: white;
+          font-weight: 800;
+          border-radius: 5px;
+          text-shadow: 2px 4px 0px rgba(0, 0, 0, 0.4);
+        }
+      `}</style>
+    </div>
+  )
+}
+
+export default memo(Panel)

@@ -1,21 +1,22 @@
 import * as React from 'react'
 import { Link } from 'gatsby'
 
-import Page from '../components/Page'
-import Container from '../components/Container'
-import IndexLayout from '../layouts'
+import Panel from '../components/panel'
+import { useInstance } from 'react-ioc'
+import { UserService } from '../services/user.service'
+import { observer } from 'mobx-react'
 
-const IndexPage = () => (
-  <IndexLayout>
-    <Page>
-      <Container>
-        <h1>Hi people</h1>
-        <p>Welcome to your new Gatsby site.</p>
-        <p>Now go build something great.</p>
-        <Link to="/page-2/">Go to page 2</Link>
-      </Container>
-    </Page>
-  </IndexLayout>
-)
+const IndexPage = () => {
+  const userService = useInstance(UserService)
+  return (
+    <>
+      <h1>Hi people</h1>
+      <p>Welcome to your new Gatsby site.</p>
+      <p>Now go build something great.</p>
+      <Link to="/page-2/">Go to page 2</Link>
+      <Panel>Hello World! {userService.user && userService.user.email}</Panel>
+    </>
+  )
+}
 
-export default IndexPage
+export default observer(IndexPage)

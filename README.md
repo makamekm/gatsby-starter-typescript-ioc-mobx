@@ -4,20 +4,20 @@
   </a>
 </p>
 <h1 align="center">
-  gatsby-starter-typescript-plus
+  gatsby-starter-typescript-ioc-mobx
 </h1>
 
 > A starter kit for TypeScript-based Gatsby projects with sensible defaults.
 
-This is a starter kit for [Gatsby.js](https://www.gatsbyjs.org/) websites written in TypeScript. It includes the bare essentials for you to get started (styling, Markdown parsing, minimal toolset).
+This is a starter kit for [Gatsby.js](https://www.gatsbyjs.org/) websites written in TypeScript. It includes the bare essentials for you to get started (styling, minimal toolset).
 
 ## Features
 
 - TypeScript
 - ESLint (with custom ESLint rules)
-- Markdown rendering with Remark
 - Basic component structure
-- Styling with [emotion](https://emotion.sh/)
+- MobX
+- React-IOC
 
 ## 🚀 Quick start
 
@@ -91,4 +91,4 @@ Built with [Gatsby](https://www.gatsbyjs.org/) - the blazing-fast static site ge
 
 ## 💫 Deploy
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/resir014/gatsby-starter-typescript-plus)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/makamekm/gatsby-starter-typescript-ioc-mobx)
