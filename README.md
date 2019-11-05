@@ -38,7 +38,7 @@ This is a starter kit for [Gatsby.js](https://www.gatsbyjs.org/) websites writte
     Use the `gatsby-cli` to create a new site and install its dependencies.
 
     ```bash
-    gatsby new project-name https://github.com/resir014/gatsby-starter-typescript-plus
+    gatsby new project-name https://github.com/makamekm/gatsby-starter-typescript-ioc-mobx
     ```
 
 2.  **Start up development server.**
