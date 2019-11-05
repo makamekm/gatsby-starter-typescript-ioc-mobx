@@ -1,41 +1,11 @@
 import * as React from 'react';
 import Helmet from 'react-helmet';
-import { provider, useInstance } from 'react-ioc';
+import { provider } from 'react-ioc';
 
 import { observer } from 'mobx-react';
 import Loading from '../components/loading';
-
-import { IRootService } from '../services/root-sevice.interface';
-import { UserService } from '../services/user.service';
-
-const services: Array<(new () => IRootService) | (new () => object)> = [UserService];
-
-// Fox mobile devices & electron apps to get real height
-const updateVH = () => {
-  const vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty('--vh', `${vh}px`);
-};
-
-const useRootHook = (props: any) => {
-  React.useEffect(() => {
-    updateVH();
-    window.addEventListener('resize', updateVH);
-    return () => window.removeEventListener('resize', updateVH);
-  }, []);
-
-  const instances: IRootService[] = services.map(service => useInstance(service));
-
-  let loading = false;
-
-  instances.forEach(instance => {
-    if (instance.useHook) {
-      instance.useHook(props);
-      loading = loading || instance.loading;
-    }
-  });
-
-  return loading;
-};
+import { useRootHook } from '../libs/root';
+import { services } from '../libs/root.services.dict';
 
 const IndexLayout: React.FC = ({ children, ...props }) => {
   const loading = useRootHook(props);
@@ -47,7 +17,7 @@ const IndexLayout: React.FC = ({ children, ...props }) => {
       <Loading active={loading} />
       <style global jsx>{`
         body {
-          position: fixed;
+          padding: 0;
           margin: 0;
           font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, Helvetica, sans-serif;
           background-color: #f3f7fa;

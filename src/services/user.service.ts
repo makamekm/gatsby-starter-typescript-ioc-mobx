@@ -38,7 +38,7 @@ export class UserService implements IRootService {
   public checkAuth() {
     this.setLoading(true);
 
-    // TODO: make auth
+    // TODO: Here you can make auth
     this.data.user = {
       id: -1,
       email: 'user@mail.com'
