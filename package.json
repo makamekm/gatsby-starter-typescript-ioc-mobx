@@ -3,13 +3,14 @@
   "description": "A starter kit for TypeScript-based Gatsby projects with sensible defaults.",
   "version": "1.0.0",
   "private": true,
-  "author": "Resi Respati <resir014@gmail.com>",
+  "author": "makame@mail.ru",
   "keywords": [
     "gatsby"
   ],
   "license": "MIT",
   "main": "n/a",
   "scripts": {
+    "compile": "node compile.js",
     "build": "gatsby build",
     "clean": "rimraf public",
     "deploy": "gatsby build --prefix-paths && gh-pages -d public",
@@ -20,10 +21,46 @@
     "test": "npm run type-check && npm run lint",
     "type-check": "tsc"
   },
+  "browserify": {
+    "extensions": [
+      ".ts",
+      ".tsx",
+      ".js",
+      ".jsx"
+    ],
+    "transform": [
+      [
+        "babelify",
+        {
+          "extensions": [
+            ".ts",
+            ".tsx",
+            ".js",
+            ".jsx"
+          ],
+          "presets": [
+            "@babel/env",
+            "@babel/react",
+            "@babel/typescript"
+          ],
+          "plugins": [
+            [
+              "@babel/plugin-proposal-decorators",
+              {
+                "legacy": true
+              }
+            ]
+          ]
+        }
+      ]
+    ]
+  },
   "engines": {
     "node": ">=8.0.0"
   },
   "dependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
     "babel-preset-gatsby": "^0.2.20",
     "@babel/plugin-proposal-optional-chaining": "^7.6.0",
     "@babel/plugin-proposal-decorators": "^7.6.0",
@@ -46,6 +83,10 @@
     "typescript": "^3.6.4"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.7.0",
+    "@babel/plugin-transform-typescript": "^7.7.0",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-react": "^7.7.0",
     "@types/classnames": "^2.2.8",
     "@types/debounce": "^1.2.0",
     "@types/node": "^12.0.10",
@@ -54,12 +95,18 @@
     "@types/react-helmet": "^5.0.8",
     "@typescript-eslint/eslint-plugin": "^2.6.0",
     "@typescript-eslint/parser": "^2.6.0",
+    "babelify": "^10.0.0",
+    "browserify": "^16.5.0",
     "eslint": "^6.6.0",
     "eslint-config-blvd": "^1.0.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-prettier": "^3.1.1",
+    "gatsby-plugin-copy-files": "^1.0.3",
+    "gatsby-plugin-manifest": "^2.2.26",
     "gh-pages": "^2.0.1",
     "prettier": "^1.18.2",
-    "rimraf": "^2.6.3"
+    "rimraf": "^2.6.3",
+    "tsify": "^4.0.1",
+    "uglifyify": "^5.0.2"
   }
 }

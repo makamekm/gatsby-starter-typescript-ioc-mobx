@@ -1,0 +1,24 @@
+{
+  "background": {
+    "persistent": false,
+    "page": "background.html"
+  },
+  "browser_action": {
+    "default_icon": "gmail_not_logged_in.png"
+  },
+  "description": "Test Description",
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "name": "Test Menu",
+  "permissions": ["alarms", "tabs", "webNavigation", "*://*/"],
+  "content_scripts": [
+    {
+      "css": ["styles.css"],
+      "js": ["script-compiled"],
+      "matches": ["*://*/**"]
+    }
+  ],
+  "version": "0.0.1",
+  "manifest_version": 2
+}
