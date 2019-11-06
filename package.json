@@ -3,7 +3,7 @@
   "description": "A starter kit for TypeScript-based Gatsby projects with sensible defaults.",
   "version": "1.0.0",
   "private": true,
-  "author": "Maxim KArpov <makame@mail.ru>",
+  "author": "Maxim Karpov <makame@mail.ru>",
   "keywords": [
     "gatsby"
   ],
