@@ -1,34 +1,38 @@
 export class LoadingAnimation {
-  timerId_ = 0;
-  maxCount_ = 8; // Total number of states in animation
-  current_ = 0; // Current state
-  maxDot_ = 4; // Max number of dots in animation
+  timerId = 0;
+
+  maxCount = 8;
+
+  // Total number of states in animation
+  current = 0;
+
+  // Current state
+  maxDot = 4; // Max number of dots in animation
 
   paintFrame() {
     let text = '';
-    for (let i = 0; i < this.maxDot_; i++) {
-      text += i == this.current_ ? '.' : ' ';
+    for (let i = 0; i < this.maxDot; i++) {
+      text += i === this.current ? '.' : ' ';
     }
-    if (this.current_ >= this.maxDot_) text += '';
+    if (this.current >= this.maxDot) text += '';
 
-    chrome.browserAction.setBadgeText({ text: text });
-    this.current_++;
-    if (this.current_ == this.maxCount_) this.current_ = 0;
+    chrome.browserAction.setBadgeText({ text });
+    this.current++;
+    if (this.current === this.maxCount) this.current = 0;
   }
 
   start() {
-    if (this.timerId_) return;
+    if (this.timerId) return;
 
-    let self = this;
-    this.timerId_ = window.setInterval(() => {
-      self.paintFrame();
+    this.timerId = window.setInterval(() => {
+      this.paintFrame();
     }, 100);
   }
 
   stop() {
-    if (!this.timerId_) return;
+    if (!this.timerId) return;
 
-    window.clearInterval(this.timerId_);
-    this.timerId_ = 0;
+    window.clearInterval(this.timerId);
+    this.timerId = 0;
   }
 }

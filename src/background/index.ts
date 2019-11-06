@@ -1,15 +1,15 @@
-import { LoadingAnimation } from './loading-animation';
+// import { LoadingAnimation } from './loading-animation';
 
-let animationFrames = 36;
-let animationSpeed = 10; // ms
-let canvas = document.getElementById('canvas') as HTMLCanvasElement;
-let loggedInImage = document.getElementById('logged_in') as CanvasImageSource;
-let canvasContext = canvas.getContext('2d');
-let pollIntervalMin = 1; // 1 minute
-let pollIntervalMax = 60; // 1 hour
-let requestTimeout = 1000 * 2; // 2 seconds
+const animationFrames = 36;
+const animationSpeed = 10; // ms
+const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+const loggedInImage = document.getElementById('logged_in') as CanvasImageSource;
+const canvasContext = canvas.getContext('2d');
+// const pollIntervalMin = 1; // 1 minute
+// const pollIntervalMax = 60; // 1 hour
+// const requestTimeout = 1000 * 2; // 2 seconds
 let rotation = 0;
-let loadingAnimation = new LoadingAnimation();
+// const loadingAnimation = new LoadingAnimation();
 
 // canvas.addEventListener('mouseenter', () => {
 //   chrome.tabs.getSelected(null, (tab) => {
@@ -20,8 +20,8 @@ let loadingAnimation = new LoadingAnimation();
 // });
 
 // Legacy support for pre-event-pages.
-let oldChromeVersion = !chrome.runtime;
-let requestTimerId;
+// const oldChromeVersion = !chrome.runtime;
+// let requestTimerId;
 
 function getGmailUrl() {
   return 'https://mail.google.com/mail/';
@@ -40,7 +40,7 @@ function isGmailUrl(url) {
 }
 
 function updateIcon() {
-  if (!localStorage.hasOwnProperty('unreadCount')) {
+  if (!Object.getOwnPropertyNames(localStorage).includes('unreadCount')) {
     chrome.browserAction.setIcon({ path: 'gmail_not_logged_in.png' });
     chrome.browserAction.setBadgeBackgroundColor({ color: [190, 190, 190, 230] });
     chrome.browserAction.setBadgeText({ text: '?' });
@@ -48,9 +48,13 @@ function updateIcon() {
     chrome.browserAction.setIcon({ path: 'gmail_logged_in.png' });
     chrome.browserAction.setBadgeBackgroundColor({ color: [208, 0, 24, 255] });
     chrome.browserAction.setBadgeText({
-      text: localStorage.unreadCount != '0' ? localStorage.unreadCount : ''
+      text: String(localStorage.unreadCount) !== '0' ? localStorage.unreadCount : ''
     });
   }
+}
+
+function ease(x) {
+  return (1 - Math.sin(Math.PI / 2 + x * Math.PI)) / 2;
 }
 
 // function scheduleRequest() {
@@ -65,17 +69,15 @@ function updateIcon() {
 //   chrome.alarms.create('refresh', {periodInMinutes: delay});
 // }
 
-function updateUnreadCount(count) {
-  let changed = localStorage.unreadCount != count;
-  localStorage.unreadCount = count;
-  updateIcon();
-  if (changed) {
-    animateFlip();
-  }
-}
+function drawIconAtRotation() {
+  canvasContext.save();
+  canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+  canvasContext.translate(Math.ceil(canvas.width / 2), Math.ceil(canvas.height / 2));
+  canvasContext.rotate(2 * Math.PI * ease(rotation));
+  canvasContext.drawImage(loggedInImage, -Math.ceil(canvas.width / 2), -Math.ceil(canvas.height / 2));
+  canvasContext.restore();
 
-function ease(x) {
-  return (1 - Math.sin(Math.PI / 2 + x * Math.PI)) / 2;
+  chrome.browserAction.setIcon({ imageData: canvasContext.getImageData(0, 0, canvas.width, canvas.height) });
 }
 
 function animateFlip() {
@@ -90,21 +92,19 @@ function animateFlip() {
   }
 }
 
-function drawIconAtRotation() {
-  canvasContext.save();
-  canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-  canvasContext.translate(Math.ceil(canvas.width / 2), Math.ceil(canvas.height / 2));
-  canvasContext.rotate(2 * Math.PI * ease(rotation));
-  canvasContext.drawImage(loggedInImage, -Math.ceil(canvas.width / 2), -Math.ceil(canvas.height / 2));
-  canvasContext.restore();
-
-  chrome.browserAction.setIcon({ imageData: canvasContext.getImageData(0, 0, canvas.width, canvas.height) });
+function updateUnreadCount(count) {
+  const changed = String(localStorage.unreadCount) !== String(count);
+  localStorage.unreadCount = count;
+  updateIcon();
+  if (changed) {
+    animateFlip();
+  }
 }
 
 function goToInbox() {
   chrome.tabs.getSelected(null, tab => {
-    chrome.tabs.executeScript(tab.id, { code: 'toggleRJMenu();' }, response => {
-      console.log('Menu has been toggled');
+    chrome.tabs.executeScript(tab.id, { code: 'toggleRJMenu();' }, () => {
+      // console.log('Menu has been toggled');
     });
   });
 
@@ -125,21 +125,21 @@ function goToInbox() {
 }
 
 function onInit() {
-  console.log('onInit');
+  // console.log('onInit');
   localStorage.requestFailureCount = 0;
   updateUnreadCount(10);
 }
 
-function onAlarm(alarm) {
-  console.log('Got alarm', alarm);
-  // // |alarm| can be undefined because onAlarm also gets called from
-  // // window.setTimeout on old chrome versions.
-  // if (alarm && alarm.name == 'watchdog') {
-  //   onWatchdog();
-  // } else {
-  //   startRequest({scheduleRequest:true, showLoadingAnimation:false});
-  // }
-}
+// function onAlarm(alarm) {
+// console.log('Got alarm', alarm);
+// // |alarm| can be undefined because onAlarm also gets called from
+// // window.setTimeout on old chrome versions.
+// if (alarm && alarm.name == 'watchdog') {
+//   onWatchdog();
+// } else {
+//   startRequest({scheduleRequest:true, showLoadingAnimation:false});
+// }
+// }
 
 // function onWatchdog() {
 //   chrome.alarms.get('refresh', function(alarm) {
@@ -161,17 +161,17 @@ function onAlarm(alarm) {
 //   loadingAnimation.start();
 
 chrome.runtime.onInstalled.addListener(onInit);
-chrome.alarms.onAlarm.addListener(onAlarm);
+// chrome.alarms.onAlarm.addListener(onAlarm);
 
 const filters = {
   // TODO(aa): Cannot use urlPrefix because all the url fields lack the protocol
   // part. See crbug.com/140238.
-  url: [{ urlContains: getGmailUrl().replace(/^https?\:\/\//, '') }]
+  url: [{ urlContains: getGmailUrl().replace(/^https?:\/\//, '') }]
 };
 
 const onNavigate = details => {
   if (details.url && isGmailUrl(details.url)) {
-    console.log('Recognized Gmail navigation to: ' + details.url + '.' + 'Refreshing count...');
+    // console.log(`Recognized Gmail navigation to: ${details.url}.` + `Refreshing count...`);
   }
 };
 if (chrome.webNavigation && chrome.webNavigation.onDOMContentLoaded && chrome.webNavigation.onReferenceFragmentUpdated) {
@@ -186,6 +186,8 @@ if (chrome.webNavigation && chrome.webNavigation.onDOMContentLoaded && chrome.we
 chrome.browserAction.onClicked.addListener(goToInbox);
 
 chrome.runtime.onStartup.addListener(() => {
-  console.log('Starting browser... updating icon.');
+  // console.log('Starting browser... updating icon.');
   updateIcon();
 });
+
+export default true;
