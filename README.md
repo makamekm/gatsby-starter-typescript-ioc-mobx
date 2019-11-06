@@ -4,12 +4,12 @@
   </a>
 </p>
 <h1 align="center">
-  gatsby-starter-typescript-ioc-mobx
+  gatsby-starter-typescript-ioc-mobx-chrome-extension
 </h1>
 
 > A starter kit for TypeScript-based Gatsby projects with sensible defaults.
 
-This is a starter kit for [Gatsby.js](https://www.gatsbyjs.org/) websites written in TypeScript. It includes the bare essentials for you to get started (styling, minimal toolset).
+This is a starter kit for [Gatsby.js](https://www.gatsbyjs.org/) websites written in TypeScript. It includes the bare essentials for you to get started (styling, testing, minimal toolset, and chrome extension kit).
 
 ## Features
 
@@ -18,6 +18,7 @@ This is a starter kit for [Gatsby.js](https://www.gatsbyjs.org/) websites writte
 - Basic component structure
 - MobX
 - React-IOC
+- Jest
 
 ## 🚀 Quick start
 
@@ -38,7 +39,7 @@ This is a starter kit for [Gatsby.js](https://www.gatsbyjs.org/) websites writte
     Use the `gatsby-cli` to create a new site and install its dependencies.
 
     ```bash
-    gatsby new project-name https://github.com/makamekm/gatsby-starter-typescript-ioc-mobx
+    gatsby new project-name https://github.com/makamekm/gatsby-starter-typescript-ioc-mobx-chrome-extension
     ```
 
 2.  **Start up development server.**
@@ -91,4 +92,4 @@ Built with [Gatsby](https://www.gatsbyjs.org/) - the blazing-fast static site ge
 
 ## 💫 Deploy
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/makamekm/gatsby-starter-typescript-ioc-mobx)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/makamekm/gatsby-starter-typescript-ioc-mobx-chrome-extension)
