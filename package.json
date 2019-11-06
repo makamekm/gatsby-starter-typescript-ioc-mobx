@@ -1,5 +1,5 @@
 {
-  "name": "gatsby-starter-typescript-plus",
+  "name": "gatsby-starter-typescript-mobx-ioc",
   "description": "A starter kit for TypeScript-based Gatsby projects with sensible defaults.",
   "version": "1.0.0",
   "private": true,
