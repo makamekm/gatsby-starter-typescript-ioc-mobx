@@ -14,7 +14,7 @@ const IndexPage = () => {
       <p>Welcome to your new Gatsby site.</p>
       <p>Now go build something great.</p>
       <Link to="/page-2/">Go to page 2</Link>
-      <Panel style={{ margin: '20px' }}>The service username is: {userService.user && userService.user.email}</Panel>
+      <Panel style={{ margin: '20px' }}>The service username is: {userService?.user?.email}</Panel>
     </>
   );
 };

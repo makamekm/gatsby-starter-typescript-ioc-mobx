@@ -62,7 +62,7 @@
     "react-helmet": "^5.2.1",
     "react-ioc": "^1.0.0",
     "styled-jsx": "^3.2.3",
-    "typescript": "^3.6.4",
+    "typescript": "^3.7.2",
     "react-test-renderer": "^16.11.0"
   },
   "devDependencies": {
