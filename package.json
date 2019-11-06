@@ -17,11 +17,30 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,md}\"",
     "lint": "eslint 'src/**/*.{ts,tsx}'",
     "start": "npm run dev",
-    "test": "npm run type-check && npm run lint",
-    "type-check": "tsc"
+    "jest": "jest",
+    "test": "run-s lint jest"
   },
   "engines": {
     "node": ">=8.0.0"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(jsx?|tsx?)$": "<rootDir>/scripts/jest-preprocess.js"
+    },
+    "moduleNameMapper": {
+      ".+\\.(css|styl|less|sass|scss)$": "identity-obj-proxy",
+      ".+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/__mocks__/file-mock.js"
+    },
+    "testURL": "http://localhost",
+    "testRegex": "\\/src\\/.+\\.(test|spec)\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   },
   "dependencies": {
     "babel-preset-gatsby": "^0.2.20",
@@ -43,23 +62,30 @@
     "react-helmet": "^5.2.1",
     "react-ioc": "^1.0.0",
     "styled-jsx": "^3.2.3",
-    "typescript": "^3.6.4"
+    "typescript": "^3.6.4",
+    "react-test-renderer": "^16.11.0"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.8",
     "@types/debounce": "^1.2.0",
     "@types/node": "^12.0.10",
+    "@types/jest": "^24.0.22",
     "@types/react": "^16.8.22",
     "@types/react-dom": "^16.8.4",
     "@types/react-helmet": "^5.0.8",
+    "@types/react-test-renderer": "^16.9.1",
     "@typescript-eslint/eslint-plugin": "^2.6.0",
     "@typescript-eslint/parser": "^2.6.0",
     "eslint": "^6.6.0",
     "eslint-config-blvd": "^1.0.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-prettier": "^3.1.1",
+    "babel-jest": "^24.9.0",
     "gh-pages": "^2.0.1",
     "prettier": "^1.18.2",
-    "rimraf": "^2.6.3"
+    "rimraf": "^2.6.3",
+    "npm-run-all": "4.1.5",
+    "jest": "^24.9.0",
+    "identity-obj-proxy": "^3.0.0"
   }
 }

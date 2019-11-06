@@ -9,7 +9,7 @@
 
 > A starter kit for TypeScript-based Gatsby projects with sensible defaults.
 
-This is a starter kit for [Gatsby.js](https://www.gatsbyjs.org/) websites written in TypeScript. It includes the bare essentials for you to get started (styling, minimal toolset).
+This is a starter kit for [Gatsby.js](https://www.gatsbyjs.org/) websites written in TypeScript. It includes the bare essentials for you to get started (styling, testing, minimal toolset).
 
 ## Features
 
@@ -18,6 +18,7 @@ This is a starter kit for [Gatsby.js](https://www.gatsbyjs.org/) websites writte
 - Basic component structure
 - MobX
 - React-IOC
+- Jest
 
 ## 🚀 Quick start
 
