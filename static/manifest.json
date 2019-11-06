@@ -4,14 +4,20 @@
     "page": "background.html"
   },
   "browser_action": {
-    "default_icon": "gmail_not_logged_in.png"
+    "default_icon": "gmail_not_logged_in.png",
+    "default_popup": "popup.html"
   },
+  "options_page": "options.html",
   "description": "Test Description",
   "icons": {
     "128": "icon_128.png"
   },
   "name": "Test Menu",
   "permissions": ["alarms", "tabs", "webNavigation", "*://*/"],
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "content_security_policy": "script-src 'unsafe-inline'; script-src-elem 'self' * 'unsafe-inline'; object-src 'self'",
   "content_scripts": [
     {
       "js": ["client-content.js"],
