@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const bundler = browserify({
   entries: ['src/client-script/index.tsx'],
-  debug: true,
+  debug: process.env.NODE_ENV === 'production' ? false : true,
   extensions: ['.ts', '.tsx', '.js', '.jsx'],
   cache: {},
   packageCache: {}
@@ -25,6 +25,8 @@ bundler.transform(babelify, {
   ]
 });
 
-// bundler.transform('uglifyify', { global: true, sourceMap: false });
+if (process.env.NODE_ENV === 'production') {
+  bundler.plugin('minifyify', { uglify: true, map: false });
+}
 
-bundler.bundle().pipe(fs.createWriteStream('public/compiled.js', { flags: 'w' }));
+bundler.bundle().pipe(fs.createWriteStream('public/client-content.js', { flags: 'w' }));

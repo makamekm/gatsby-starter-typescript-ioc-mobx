@@ -10,7 +10,7 @@ module.exports = {
       resolve: 'gatsby-plugin-copy-files',
       options: {
         source: `${__dirname}/static`,
-        destination: `${__dirname}/src/bundle`
+        destination: `${__dirname}/public`
       }
     }
   ]

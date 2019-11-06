@@ -10,8 +10,11 @@
   "license": "MIT",
   "main": "n/a",
   "scripts": {
-    "compile": "node compile.js",
-    "build": "gatsby build",
+    "build:main": "gatsby build",
+    "build:background": "node scripts/compile-background.js --production",
+    "build:client-script": "node scripts/compile-client-script.js --production",
+    "build:extension": "run-p build:client-script build:background",
+    "build": "NODE_ENV=production run-s clean build:main build:extension",
     "clean": "rimraf public",
     "deploy": "gatsby build --prefix-paths && gh-pages -d public",
     "dev": "gatsby develop",
@@ -21,49 +24,10 @@
     "test": "npm run type-check && npm run lint",
     "type-check": "tsc"
   },
-  "browserify": {
-    "extensions": [
-      ".ts",
-      ".tsx",
-      ".js",
-      ".jsx"
-    ],
-    "transform": [
-      [
-        "babelify",
-        {
-          "extensions": [
-            ".ts",
-            ".tsx",
-            ".js",
-            ".jsx"
-          ],
-          "presets": [
-            "@babel/env",
-            "@babel/react",
-            "@babel/typescript"
-          ],
-          "plugins": [
-            [
-              "@babel/plugin-proposal-decorators",
-              {
-                "legacy": true
-              }
-            ]
-          ]
-        }
-      ]
-    ]
-  },
   "engines": {
     "node": ">=8.0.0"
   },
   "dependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "babel-preset-gatsby": "^0.2.20",
-    "@babel/plugin-proposal-optional-chaining": "^7.6.0",
-    "@babel/plugin-proposal-decorators": "^7.6.0",
     "classnames": "^2.2.6",
     "debounce": "^1.2.0",
     "gatsby": "^2.10.0",
@@ -83,10 +47,15 @@
     "typescript": "^3.6.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "babel-preset-gatsby": "^0.2.20",
+    "@babel/plugin-proposal-optional-chaining": "^7.6.0",
+    "@babel/plugin-proposal-decorators": "^7.6.0",
     "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/plugin-transform-typescript": "^7.7.0",
     "@babel/preset-env": "^7.7.1",
     "@babel/preset-react": "^7.7.0",
+    "@types/chrome": "0.0.91",
     "@types/classnames": "^2.2.8",
     "@types/debounce": "^1.2.0",
     "@types/node": "^12.0.10",
@@ -105,8 +74,8 @@
     "gatsby-plugin-manifest": "^2.2.26",
     "gh-pages": "^2.0.1",
     "prettier": "^1.18.2",
+    "npm-run-all": "4.1.5",
     "rimraf": "^2.6.3",
-    "tsify": "^4.0.1",
-    "uglifyify": "^5.0.2"
+    "minifyify": "^7.3.5"
   }
 }

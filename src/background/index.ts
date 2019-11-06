@@ -1,42 +1,9 @@
-class LoadingAnimation {
-  timerId_ = 0;
-  maxCount_ = 8; // Total number of states in animation
-  current_ = 0; // Current state
-  maxDot_ = 4; // Max number of dots in animation
-
-  paintFrame() {
-    let text = '';
-    for (let i = 0; i < this.maxDot_; i++) {
-      text += i == this.current_ ? '.' : ' ';
-    }
-    if (this.current_ >= this.maxDot_) text += '';
-
-    chrome.browserAction.setBadgeText({ text: text });
-    this.current_++;
-    if (this.current_ == this.maxCount_) this.current_ = 0;
-  }
-
-  start() {
-    if (this.timerId_) return;
-
-    let self = this;
-    this.timerId_ = window.setInterval(() => {
-      self.paintFrame();
-    }, 100);
-  }
-
-  stop() {
-    if (!this.timerId_) return;
-
-    window.clearInterval(this.timerId_);
-    this.timerId_ = 0;
-  }
-}
+import { LoadingAnimation } from './loading-animation';
 
 let animationFrames = 36;
 let animationSpeed = 10; // ms
-let canvas = document.getElementById('canvas');
-let loggedInImage = document.getElementById('logged_in');
+let canvas = document.getElementById('canvas') as HTMLCanvasElement;
+let loggedInImage = document.getElementById('logged_in') as CanvasImageSource;
 let canvasContext = canvas.getContext('2d');
 let pollIntervalMin = 1; // 1 minute
 let pollIntervalMax = 60; // 1 hour
@@ -62,10 +29,10 @@ function getGmailUrl() {
 
 // Identifier used to debug the possibility of multiple instances of the
 // extension making requests on behalf of a single user.
-function getInstanceId() {
-  if (!localStorage.hasOwnProperty('instanceId')) localStorage.instanceId = 'gmc' + parseInt(Date.now() * Math.random(), 10);
-  return localStorage.instanceId;
-}
+// function getInstanceId() {
+//   if (!localStorage.hasOwnProperty('instanceId')) localStorage.instanceId = 'gmc' + parseInt(Date.now() * Math.random(), 10);
+//   return localStorage.instanceId;
+// }
 
 function isGmailUrl(url) {
   // Return whether the URL starts with the Gmail prefix.

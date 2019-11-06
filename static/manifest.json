@@ -14,8 +14,7 @@
   "permissions": ["alarms", "tabs", "webNavigation", "*://*/"],
   "content_scripts": [
     {
-      "css": ["styles.css"],
-      "js": ["script-compiled"],
+      "js": ["client-content.js"],
       "matches": ["*://*/**"]
     }
   ],
