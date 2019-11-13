@@ -54,7 +54,7 @@ export class TodoService implements IRootService {
       this.data.todos.push({
         name: text,
         done: false,
-        author: this.userService.user.email
+        author: this.userService?.user?.email
       });
     }
   };
