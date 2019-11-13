@@ -21,7 +21,7 @@ const serviceProxy = new Proxy(service, {
       console.log('this is an action!');
       return async function(...args) {
         const result = await obj[prop](...args);
-        console.log('this is an action return!', toJS(obj[prop]));
+        console.log('this is an action return!', result);
         if (isObservable(result) || isComputed(result)) {
           return toJS(result);
         }

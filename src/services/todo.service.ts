@@ -57,6 +57,7 @@ export class TodoService implements IRootService {
         author: this.userService?.user?.email
       });
     }
+    return 'test';
   };
 
   @action toggle = (text: string) => {
