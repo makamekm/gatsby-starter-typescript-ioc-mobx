@@ -6,3 +6,11 @@ declare module 'react' {
     global?: boolean;
   }
 }
+
+declare module 'workerize-loader!*' {
+  class WebpackWorker extends Worker {
+    public constructor();
+  }
+
+  export default WebpackWorker;
+}

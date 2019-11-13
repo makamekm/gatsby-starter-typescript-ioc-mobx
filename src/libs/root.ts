@@ -17,7 +17,7 @@ export const useRootHook = (props: any) => {
     return () => window.removeEventListener('resize', updateVH);
   }, []);
 
-  const instances: IRootService[] = services.map(service => useInstance(service));
+  const instances: IRootService[] = services.map(service => useInstance(Array.isArray(service) ? service[0] : service));
 
   let loading = false;
 
@@ -27,6 +27,9 @@ export const useRootHook = (props: any) => {
       loading = loading || instance.loading;
     }
   });
+  console.log(instances[1]);
+
+  setTimeout(async () => console.log(await (instances[1] as any).findTask('Write sctipt')), 0);
 
   return loading;
 };
