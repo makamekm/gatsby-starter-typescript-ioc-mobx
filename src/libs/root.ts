@@ -20,16 +20,18 @@ export const useRootHook = (props: any) => {
   const instances: IRootService[] = services.map(service => useInstance(Array.isArray(service) ? service[0] : service));
 
   let loading = false;
-
+  console.log('init');
   instances.forEach(instance => {
     if (instance.useHook) {
       instance.useHook(props);
       loading = loading || instance.loading;
     }
   });
-  console.log(instances[1]);
 
-  setTimeout(async () => console.log(await (instances[1] as any).findTask('Write sctipt')), 0);
+  setTimeout(async () => {
+    // console.log(await (instances[1] as any).left);
+    console.log(await (instances[1] as any).add('test'));
+  }, 0);
 
   return loading;
 };
