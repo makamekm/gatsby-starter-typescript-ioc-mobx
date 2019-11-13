@@ -57,7 +57,7 @@ export class TodoService implements IRootService {
         author: this.userService?.user?.email
       });
     }
-    return 'test';
+    return this.data.todos[this.data.todos.length - 1];
   };
 
   @action toggle = (text: string) => {
