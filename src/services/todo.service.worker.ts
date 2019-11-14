@@ -1,11 +1,60 @@
 import * as Comlink from 'comlink';
-import { $mobx, toJS, isObservable, isComputed, isAction } from 'mobx';
+import { $mobx, toJS, isObservable, isComputed, isAction, autorun } from 'mobx';
 import { TodoService } from './todo.service';
 
 const service = new TodoService();
 
+// if (TodoService.prototype[$mobx] && TodoService.prototype[$mobx] && TodoService.prototype[$mobx].values) {
+//   TodoService.prototype[$mobx].values.forEach((_value, key) => {
+//   }
+// }
+
+// reaction(
+//   () => counter.count,
+//   (count, reaction) => {
+//       // console.log("reaction 3: invoked. counter.count = " + count)
+//       // reaction.dispose();
+//   }
+// )
+
 const serviceProxy = new Proxy(service, {
-  get: function (obj, prop) {
+  get: function(obj, prop) {
+    if (prop === 'onMount') {
+      return async function(cb, ...args) {
+        for (const key of Object.getOwnPropertyNames(service['__proto__'])) {
+          obj[key]; // Initialize
+        }
+
+        await new Promise(r => setImmediate(r));
+
+        if (obj[prop]) {
+          await (obj[prop] as any)(...args);
+        }
+
+        Object.getOwnPropertyNames(service['__proto__']).forEach(key => {
+          const $is = obj[$mobx] && obj[$mobx].values.has(key);
+          console.log(
+            'onMount',
+            key,
+            // obj,
+            // obj[$mobx] && obj[$mobx].values,
+            $is
+            // isObservable(obj[key]),
+            // isComputed(obj[key]),
+            // service['__proto__']
+          );
+          if ($is) {
+            autorun(() => {
+              cb({ type: 'change', name: key, value: toJS(obj[key]) });
+              console.log('reaction', key, obj[key]);
+              // reaction.dispose();
+            });
+            // cb('test');
+            // console.log('onMount', key);
+          }
+        });
+      };
+    }
     // const adm = service[$mobx];
     // if (!adm) {
     // }
@@ -19,7 +68,7 @@ const serviceProxy = new Proxy(service, {
 
     if (isAction(obj[prop])) {
       console.log('this is an action!');
-      return async function (...args) {
+      return async function(...args) {
         const result = await obj[prop](...args);
         console.log('this is an action return!', result);
         if (isObservable(result) || isComputed(result)) {
@@ -35,7 +84,7 @@ const serviceProxy = new Proxy(service, {
     // The default behavior to return the value
     return obj[prop];
   },
-  set: function (obj, prop, value) {
+  set: function(obj, prop, value) {
     throw Error('Cannot set anything using web workers');
 
     // The default behavior to store the value

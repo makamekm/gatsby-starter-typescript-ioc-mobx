@@ -3,6 +3,8 @@ import { useInstance } from 'react-ioc';
 
 import { services } from './root.services.dict';
 import { IRootService } from '../services/root-sevice.interface';
+import { useDisposable } from 'mobx-react-lite';
+import { reaction, $mobx } from 'mobx';
 
 // Fox mobile devices & electron apps to get real height
 const updateVH = () => {
@@ -22,6 +24,19 @@ export const useRootHook = (props: any) => {
   let loading = false;
   console.log('init');
 
+  // instances.forEach((_instance, index) => {
+  //   if (Array.isArray(services[index])) {
+  //     const [service, instance] = services[index] as any;
+  //     if (service.prototype[$mobx] && service.prototype[$mobx] && service.prototype[$mobx].values) {
+  //       service.prototype[$mobx].values.forEach((_value, key) => {
+  //         useDisposable(() => reaction(() => instance[key], value => {
+
+  //         }));
+  //       })
+  //     }
+  //   }
+  // });
+
   React.useEffect(() => {
     instances.forEach(instance => {
       if (instance.onMount) {
@@ -34,7 +49,7 @@ export const useRootHook = (props: any) => {
           instance.onUnMount();
         }
       });
-    }
+    };
   }, []);
 
   instances.forEach(instance => {
