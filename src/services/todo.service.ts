@@ -14,31 +14,31 @@ export class TodoService implements IRootService {
     inputValue: string;
     todos: ITodo[];
   } = {
-    inputValue: '',
-    todos: [
-      {
-        name: 'Make a presentation',
-        done: true,
-        author: 'user@mail.com'
-      },
-      {
-        name: 'Write sctipt',
-        done: false,
-        author: 'user@mail.com'
-      },
-      {
-        name: 'Rehearsal',
-        done: false,
-        author: 'user@mail.com'
-      }
-    ]
-  };
+      inputValue: '',
+      todos: [
+        {
+          name: 'Make a presentation',
+          done: true,
+          author: 'user@mail.com'
+        },
+        {
+          name: 'Write script',
+          done: false,
+          author: 'user@mail.com'
+        },
+        {
+          name: 'Rehearsal',
+          done: false,
+          author: 'user@mail.com'
+        }
+      ]
+    };
 
   private userService: UserService;
 
   // Constructor
-  public useHook() {
-    this.userService = useInstance(UserService);
+  public onMount() {
+    // this.userService = useInstance(UserService);
   }
 
   @computed get left() {
@@ -49,25 +49,25 @@ export class TodoService implements IRootService {
     return this.data.todos.find(t => t.name === text);
   }
 
-  @action add = (text: string) => {
+  @action add(text: string) {
     if (!this.findTask(text)) {
       this.data.todos.push({
         name: text,
         done: false,
-        author: this.userService?.user?.email
+        author: this.userService ?.user ?.email
       });
     }
     return this.data.todos[this.data.todos.length - 1];
   };
 
-  @action toggle = (text: string) => {
+  @action toggle(text: string) {
     const task = this.findTask(text);
     if (task) {
       task.done = !task.done;
     }
   };
 
-  @action remove = (text: string) => {
+  @action remove(text: string) {
     (this.data.todos as IObservableArray).replace(this.data.todos.filter(t => t.name !== text));
   };
 }

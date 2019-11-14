@@ -5,7 +5,7 @@ import { TodoService } from './todo.service';
 const service = new TodoService();
 
 const serviceProxy = new Proxy(service, {
-  get: function(obj, prop) {
+  get: function (obj, prop) {
     // const adm = service[$mobx];
     // if (!adm) {
     // }
@@ -19,7 +19,7 @@ const serviceProxy = new Proxy(service, {
 
     if (isAction(obj[prop])) {
       console.log('this is an action!');
-      return async function(...args) {
+      return async function (...args) {
         const result = await obj[prop](...args);
         console.log('this is an action return!', result);
         if (isObservable(result) || isComputed(result)) {
@@ -29,12 +29,13 @@ const serviceProxy = new Proxy(service, {
       };
     }
 
-    throw Error('Cannot run or return non mobx elements');
+    // console.error(prop, obj[prop], isComputed(obj[prop]));
+    // throw Error('Cannot run or return non mobx elements');
 
     // The default behavior to return the value
     return obj[prop];
   },
-  set: function(obj, prop, value) {
+  set: function (obj, prop, value) {
     throw Error('Cannot set anything using web workers');
 
     // The default behavior to store the value
@@ -44,5 +45,7 @@ const serviceProxy = new Proxy(service, {
     return true;
   }
 });
+
+// export default serviceProxy;
 
 Comlink.expose(serviceProxy);

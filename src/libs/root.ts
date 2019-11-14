@@ -21,17 +21,33 @@ export const useRootHook = (props: any) => {
 
   let loading = false;
   console.log('init');
+
+  React.useEffect(() => {
+    instances.forEach(instance => {
+      if (instance.onMount) {
+        instance.onMount();
+      }
+    });
+    return () => {
+      instances.forEach(instance => {
+        if (instance.onUnMount) {
+          instance.onUnMount();
+        }
+      });
+    }
+  }, []);
+
   instances.forEach(instance => {
     if (instance.useHook) {
-      instance.useHook(props);
-      loading = loading || instance.loading;
+      instance.useHook();
     }
+    loading = loading || instance.loading;
   });
 
-  setTimeout(async () => {
-    // console.log(await (instances[1] as any).left);
-    console.log(await (instances[1] as any).add('test'));
-  }, 0);
+  // setTimeout(async () => {
+  //   // console.log(await (instances[1] as any).left);
+  //   console.log(await (instances[1] as any).add('test'));
+  // }, 0);
 
   return loading;
 };

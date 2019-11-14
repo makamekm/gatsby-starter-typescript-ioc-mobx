@@ -1,25 +1,26 @@
 import * as Comlink from 'comlink';
-import { observable, isObservable } from 'mobx';
+import { observable, isObservable, isAction, toJS } from 'mobx';
 import { toValue } from 'react-ioc';
 
 import { UserService } from '../services/user.service';
 import { TodoService } from '../services/todo.service';
-import TodoServiceWorker from 'workerize-loader!../services/todo.service.worker';
+import TodoServiceWorker from 'worker-loader?inline=true!../services/todo.service.worker.ts';
 
-const service = Comlink.wrap(TodoServiceWorker());
+const service = typeof window === 'object' ? Comlink.wrap(TodoServiceWorker()) : {};
+// const service = Comlink.wrap(TodoServiceWorker());
 
 const serviceProxy = new Proxy(service, {
-  get: function(obj, prop) {
+  get: function (obj, prop) {
     const key = '___' + String(prop);
     if (typeof TodoService.prototype[prop] !== 'function' && typeof TodoService.prototype[prop] !== 'undefined') {
-      if (!isObservable(this[key])) {
-        this[key] = observable({});
+      if (this[key] === undefined) {
+        this[key] = observable({ value: toJS(TodoService.prototype[prop]) });
+        setImmediate(async () => {
+          const result = await obj[prop];
+          this[key].value = result;
+        });
       }
-      setImmediate(async () => {
-        const result = await obj[prop];
-        this[key].replace(result);
-      });
-      return this[key];
+      return this[key].value;
     }
 
     // const adm = service[$mobx];
@@ -46,9 +47,12 @@ const serviceProxy = new Proxy(service, {
     // }
 
     // throw Error('Cannot run or return non mobx elements');
+    // return function (...args) {
+    //   obj[prop](...args.map(a => toJS(a)))
+    // }
 
     // The default behavior to return the value
-    return obj[prop];
+    return TodoService.prototype[prop] === undefined ? undefined : obj[prop];
   }
   // set: function() {
   //   throw Error('Cannot set anything using web workers');

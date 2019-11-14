@@ -7,7 +7,7 @@ declare module 'react' {
   }
 }
 
-declare module 'workerize-loader!*' {
+declare module 'worker-loader!*' {
   class WebpackWorker extends Worker {
     public constructor();
   }
