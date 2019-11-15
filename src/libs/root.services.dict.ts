@@ -30,9 +30,9 @@ const serviceProxy = new Proxy(service, {
 
     if (prop === 'onMount') {
       return function() {
-        console.log('dfdf', TodoService['__toInject']);
-        for (const [key, clazz] of TodoService['__toInject']) {
-        }
+        // console.log('dfdf', TodoService['__toInject'], Reflect.getMetadata('design:paramtypes', TodoService));
+        // for (const [key, clazz] of TodoService['__toInject']) {
+        // }
         obj[prop](
           Comlink.proxy(function onMessage(message) {
             console.log(service, message);
@@ -41,7 +41,8 @@ const serviceProxy = new Proxy(service, {
             }
           }),
           Comlink.proxy(async function onCallService(index, fnName, args) {
-            const service = services.find(([k]) => k === TodoService['__toInject'][index][1]);
+            const params = Reflect.getMetadata('design:paramtypes', TodoService);
+            const service = services.find(([k]) => k === params[index]);
             console.log('callInjection', index, fnName, args, service[2]);
             const res = await service[2][fnName].apply(service[2], args);
             console.log('result', res);
@@ -65,8 +66,30 @@ const serviceProxy = new Proxy(service, {
   // }
 });
 
+export function resolve(clazz) {
+  const args = [];
+  const params = Reflect.getMetadata('design:paramtypes', clazz) || [];
+  for (const index in params) {
+    const param = params[index];
+    args.push(
+      new Proxy(
+        {},
+        {
+          get: function(obj, prop) {
+            const service = services.find(([key]) => key === param);
+            return service[prop];
+          }
+        }
+      )
+    );
+  }
+  return new clazz(...args);
+}
+
 // console.log(new TodoServiceWorker());
 // TODO: Here you can add root services
-const us = new UserService();
+const us = resolve(UserService);
 services.push([UserService, toValue(us), us]);
+
+// const sp = resolve(serviceProxy);
 services.push([TodoService, toValue(serviceProxy), serviceProxy]);

@@ -11,14 +11,19 @@ export interface ITodo {
 
 const Service = () : ClassDecorator => {
   return target => {
+    // target['__toInject'] = [];
+    // const params = Reflect.getMetadata('design:paramtypes', target) || [];
+    // for (const index in params) {
+    //   const param = params[index];
+    //   target['__toInject'].push(param);
+    // }
+    // target['__toInject'] = [['userService', UserService]];
     console.log(
       'ghghgghhg',
-      Reflect.getMetadata('design:paramtypes', target),
-      Reflect.getMetadata('design:type', target)
+      Reflect.getMetadata('design:paramtypes', target)
     );
   };
 };
-
 
 @Service()
 export class TodoService implements IRootService {
@@ -86,5 +91,3 @@ export class TodoService implements IRootService {
     (this.data.todos as IObservableArray).replace(this.data.todos.filter(t => t.name !== text));
   };
 }
-
-TodoService['__toInject'] = [['userService', UserService]];

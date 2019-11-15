@@ -2,7 +2,43 @@ import * as Comlink from 'comlink';
 import { $mobx, toJS, isObservable, isComputed, isAction, autorun, observable } from 'mobx';
 import { TodoService } from './todo.service';
 
-const service = new TodoService();
+let callService;
+
+export function resolve(clazz) {
+  const args = [];
+  const params = Reflect.getMetadata('design:paramtypes', clazz) || [];
+  for (const index in params) {
+    const param = params[index];
+    args.push(
+      new Proxy(
+        {},
+        {
+          get: function(s, p) {
+            const getValue = k => {
+              const l = '___' + k;
+              if (s[l] === undefined) {
+                s[l] = observable({ value: toJS(param.prototype[p]) });
+              }
+              return s[l].value;
+            };
+            const $is = param.prototype[$mobx] && param.prototype[$mobx].values.has(p);
+            if ($is) {
+              return getValue(p);
+            } else {
+              return async function(...a) {
+                console.log('!!!!!!!', s, p, index, p, a);
+                return await callService(index, p, a);
+              };
+            }
+          }
+        }
+      )
+    );
+  }
+  return new clazz(...args);
+}
+
+const service = resolve(TodoService);
 
 // if (TodoService.prototype[$mobx] && TodoService.prototype[$mobx] && TodoService.prototype[$mobx].values) {
 //   TodoService.prototype[$mobx].values.forEach((_value, key) => {
@@ -20,39 +56,40 @@ const service = new TodoService();
 const serviceProxy = new Proxy(service, {
   get: function(obj, prop) {
     if (prop === 'onMount') {
-      return async function(cb, callService, ...args) {
+      return async function(cb, _callService, ...args) {
+        callService = _callService;
         for (const key of Object.getOwnPropertyNames(service['__proto__'])) {
           obj[key]; // Initialize
         }
 
         await new Promise(r => setImmediate(r));
 
-        for (const index in TodoService['__toInject']) {
-          const [key, clazz] = TodoService['__toInject'][index];
-          console.log('initInjection', key, clazz);
-          obj[key] = new Proxy(
-            {},
-            {
-              get: function(s, p) {
-                const getValue = k => {
-                  const l = '___' + k;
-                  if (s[l] === undefined) {
-                    s[l] = observable({ value: toJS(TodoService.prototype[prop]) });
-                  }
-                  return s[l].value;
-                };
-                const $is = clazz.prototype[$mobx] && clazz.prototype[$mobx].values.has(prop);
-                if ($is) {
-                  return getValue(p);
-                } else {
-                  return async function(...args) {
-                    return await callService(index, p, args);
-                  };
-                }
-              }
-            }
-          );
-        }
+        // for (const index in TodoService['__toInject']) {
+        //   const [key, clazz] = TodoService['__toInject'][index];
+        //   console.log('initInjection', key, clazz);
+        //   obj[key] = new Proxy(
+        //     {},
+        //     {
+        //       get: function(s, p) {
+        //         const getValue = k => {
+        //           const l = '___' + k;
+        //           if (s[l] === undefined) {
+        //             s[l] = observable({ value: toJS(TodoService.prototype[prop]) });
+        //           }
+        //           return s[l].value;
+        //         };
+        //         const $is = clazz.prototype[$mobx] && clazz.prototype[$mobx].values.has(prop);
+        //         if ($is) {
+        //           return getValue(p);
+        //         } else {
+        //           return async function(...args) {
+        //             return await callService(index, p, args);
+        //           };
+        //         }
+        //       }
+        //     }
+        //   );
+        // }
 
         if (obj[prop]) {
           await (obj[prop] as any).apply(obj, args);
