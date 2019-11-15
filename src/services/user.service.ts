@@ -46,4 +46,14 @@ export class UserService implements IRootService {
 
     this.setLoading(false);
   }
+
+  public test(arg) {
+    this.setLoading(true);
+
+    console.log('from user service', arg);
+
+    this.setLoading(false);
+
+    return 'tettttt' + arg;
+  }
 }

@@ -3,12 +3,7 @@
     "module": "commonjs",
     "target": "esnext",
     "jsx": "preserve",
-    "lib": [
-      "webworker",
-      "dom",
-      "es2015",
-      "es2017"
-    ],
+    "lib": ["webworker", "dom", "es2015", "es2017"],
     "strict": false,
     "noEmit": true,
     "isolatedModules": true,
@@ -18,9 +13,8 @@
     "noUnusedParameters": true,
     "removeComments": false,
     "preserveConstEnums": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
-  "include": [
-    "./src/**/*"
-  ]
+  "include": ["./src/**/*"]
 }

@@ -34,11 +34,14 @@ export class TodoService implements IRootService {
       ]
     };
 
-  private userService: UserService;
+  constructor(private userService: UserService) {}
 
   // Constructor
   public onMount() {
     // this.userService = useInstance(UserService);
+    setTimeout(async () => {
+      console.log(await this.userService.test('hello'));
+    }, 1000);
   }
 
   @computed get left() {
@@ -71,3 +74,5 @@ export class TodoService implements IRootService {
     (this.data.todos as IObservableArray).replace(this.data.todos.filter(t => t.name !== text));
   };
 }
+
+TodoService['__toInject'] = [['userService', UserService]];

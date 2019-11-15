@@ -6,6 +6,8 @@ import { UserService } from '../services/user.service';
 import { TodoService } from '../services/todo.service';
 import TodoServiceWorker from 'worker-loader?inline=true!../services/todo.service.worker.ts';
 
+export const services = [];
+
 const service = typeof window === 'object' ? Comlink.wrap(TodoServiceWorker()) : {};
 // const service = Comlink.wrap(TodoServiceWorker());
 
@@ -28,12 +30,22 @@ const serviceProxy = new Proxy(service, {
 
     if (prop === 'onMount') {
       return function() {
+        console.log('dfdf', TodoService['__toInject']);
+        for (const [key, clazz] of TodoService['__toInject']) {
+        }
         obj[prop](
           Comlink.proxy(function onMessage(message) {
             console.log(service, message);
             if (message.type === 'change') {
               setValue(message.name, message.value);
             }
+          }),
+          Comlink.proxy(async function onCallService(index, fnName, args) {
+            const service = services.find(([k]) => k === TodoService['__toInject'][index][1]);
+            console.log('callInjection', index, fnName, args, service[2]);
+            const res = await service[2][fnName].apply(service[2], args);
+            console.log('result', res);
+            return res;
           })
         );
       };
@@ -55,4 +67,6 @@ const serviceProxy = new Proxy(service, {
 
 // console.log(new TodoServiceWorker());
 // TODO: Here you can add root services
-export const services = [UserService, [TodoService, toValue(serviceProxy)]];
+const us = new UserService();
+services.push([UserService, toValue(us), us]);
+services.push([TodoService, toValue(serviceProxy), serviceProxy]);
