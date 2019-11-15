@@ -1,5 +1,5 @@
-import { computed, observable, action, IObservableArray, toJS } from 'mobx';
-import { useInstance } from 'react-ioc';
+import { computed, observable, action, IObservableArray } from 'mobx';
+import 'reflect-metadata';
 import { IRootService } from './root-sevice.interface';
 import { UserService } from './user.service';
 
@@ -9,6 +9,18 @@ export interface ITodo {
   author: string;
 }
 
+const Service = () : ClassDecorator => {
+  return target => {
+    console.log(
+      'ghghgghhg',
+      Reflect.getMetadata('design:paramtypes', target),
+      Reflect.getMetadata('design:type', target)
+    );
+  };
+};
+
+
+@Service()
 export class TodoService implements IRootService {
   @observable public data: {
     inputValue: string;

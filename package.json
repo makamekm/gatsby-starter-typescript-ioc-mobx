@@ -63,6 +63,7 @@
     "react-ioc": "^1.0.0",
     "react-spring": "8.0.27",
     "react-test-renderer": "^16.11.0",
+    "reflect-metadata": "^0.1.13",
     "styled-jsx": "^3.2.3",
     "typescript": "^3.7.2"
   },
