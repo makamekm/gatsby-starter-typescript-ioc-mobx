@@ -1,7 +1,7 @@
-import React, { memo } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
-const Loading = ({ active }: { active: boolean }) => (
+export const Loading = React.memo(({ active }: { active: boolean }) => (
   <div className={classNames('loading', { 'is-active': active })}>
     <div className="spinner">
       <div />
@@ -67,6 +67,4 @@ const Loading = ({ active }: { active: boolean }) => (
       }
     `}</style>
   </div>
-);
-
-export default memo(Loading);
+));

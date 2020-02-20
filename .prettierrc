@@ -1,5 +1,5 @@
 {
-  "parser": "babel",
+  "parser": "typescript",
   "semi": true,
   "tabWidth": 2,
   "printWidth": 140,

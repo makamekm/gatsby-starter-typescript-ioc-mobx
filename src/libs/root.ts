@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useInstance } from 'react-ioc';
 
 import { services } from './root.services.dict';
@@ -24,8 +24,8 @@ export const useRootHook = (props: any) => {
   instances.forEach(instance => {
     if (instance.useHook) {
       instance.useHook(props);
-      loading = loading || instance.loading;
     }
+    loading = loading || instance.loading;
   });
 
   return loading;

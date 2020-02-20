@@ -1,7 +1,7 @@
+import React from 'react';
 import debounce from 'debounce';
 import { computed, observable, reaction } from 'mobx';
 import { useDisposable } from 'mobx-react-lite';
-import { useEffect } from 'react';
 import { IRootService } from './root-sevice.interface';
 import { IUser } from '../models/user.model';
 
@@ -32,7 +32,7 @@ export class UserService implements IRootService {
 
   // Constructor
   public useHook() {
-    useEffect(() => this.checkAuth(), []);
+    React.useEffect(() => this.checkAuth(), []);
   }
 
   public checkAuth() {

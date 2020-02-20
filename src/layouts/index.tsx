@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import Helmet from 'react-helmet';
 import { provider } from 'react-ioc';
 
 import { observer } from 'mobx-react';
-import Loading from '../components/loading';
+import { Loading } from '../components/loading';
 import { useRootHook } from '../libs/root';
 import { services } from '../libs/root.services.dict';
 

@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'gatsby';
 
 import { useInstance } from 'react-ioc';
 import { observer } from 'mobx-react';
-import Panel from '../components/panel';
+import { Panel } from '../components/panel';
 import { UserService } from '../services/user.service';
 
 const IndexPage = () => {

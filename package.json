@@ -17,10 +17,10 @@
     "format": "prettier \"{src,scripts}/**/*.{ts,tsx,md}\"",
     "format:fix": "prettier --write \"{src,scripts}/**/*.{ts,tsx,md}\"",
     "lint": "eslint '{src,scripts}/**/*.{js,jsx,ts,tsx}'",
-    "lint:fix": "eslint --fix --fix-type suggestion '{src,scripts}/**/*.{ts,tsx}'",
+    "lint:fix": "eslint --fix '{src,scripts}/**/*.{ts,tsx}'",
     "start": "npm run dev",
     "jest": "jest",
-    "test": "run-s lint format jest",
+    "test": "run-s lint jest",
     "verify": "lint-staged"
   },
   "husky": {
@@ -30,7 +30,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix --fix-type suggestion",
+      "eslint --fix",
       "prettier --write",
       "cross-env NODE_ENV=test jest --bail --findRelatedTests"
     ]

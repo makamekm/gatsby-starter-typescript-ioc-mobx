@@ -1,3 +1,4 @@
+// prettier-ignore
 import 'react';
 
 declare module 'react' {
