@@ -14,11 +14,26 @@
     "clean": "rimraf public",
     "deploy": "gatsby build --prefix-paths && gh-pages -d public",
     "dev": "gatsby develop",
-    "format": "prettier --write \"src/**/*.{ts,tsx,md}\"",
-    "lint": "eslint 'src/**/*.{ts,tsx}'",
+    "format": "prettier \"{src,scripts}/**/*.{ts,tsx,md}\"",
+    "format:fix": "prettier --write \"{src,scripts}/**/*.{ts,tsx,md}\"",
+    "lint": "eslint '{src,scripts}/**/*.{js,jsx,ts,tsx}'",
+    "lint:fix": "eslint --fix --fix-type suggestion '{src,scripts}/**/*.{ts,tsx}'",
     "start": "npm run dev",
     "jest": "jest",
-    "test": "run-s lint jest"
+    "test": "run-s lint format jest",
+    "verify": "lint-staged"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix --fix-type suggestion",
+      "prettier --write",
+      "cross-env NODE_ENV=test jest --bail --findRelatedTests"
+    ]
   },
   "engines": {
     "node": ">=8.0.0"
@@ -43,48 +58,51 @@
     ]
   },
   "dependencies": {
-    "babel-preset-gatsby": "^0.2.20",
-    "@babel/plugin-proposal-optional-chaining": "^7.6.0",
-    "@babel/plugin-proposal-decorators": "^7.6.0",
+    "babel-preset-gatsby": "^0.2.29",
+    "@babel/plugin-proposal-optional-chaining": "^7.8.3",
+    "@babel/plugin-proposal-decorators": "^7.8.3",
     "classnames": "^2.2.6",
     "debounce": "^1.2.0",
-    "gatsby": "^2.10.0",
-    "gatsby-plugin-react-helmet": "^3.1.0",
-    "gatsby-plugin-typescript": "^2.1.0",
-    "gatsby-plugin-styled-jsx": "^3.1.12",
-    "gatsby-plugin-layout": "^1.1.13",
-    "mobx": "^5.14.2",
-    "mobx-react-lite": "^1.5.0",
-    "mobx-react": "^6.1.4",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "gatsby": "^2.19.19",
+    "gatsby-plugin-react-helmet": "^3.1.22",
+    "gatsby-plugin-typescript": "^2.1.27",
+    "gatsby-plugin-styled-jsx": "^3.1.19",
+    "gatsby-plugin-layout": "^1.1.22",
+    "mobx": "^5.15.4",
+    "mobx-react-lite": "^1.5.2",
+    "mobx-react": "^6.1.8",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
     "react-helmet": "^5.2.1",
     "react-ioc": "^1.0.0",
-    "styled-jsx": "^3.2.3",
-    "typescript": "^3.7.2",
-    "react-test-renderer": "^16.11.0"
+    "styled-jsx": "^3.2.4",
+    "typescript": "^3.7.5",
+    "react-test-renderer": "^16.12.0",
+    "babel-jest": "^25.1.0"
   },
   "devDependencies": {
-    "@types/classnames": "^2.2.8",
+    "@types/classnames": "^2.2.9",
     "@types/debounce": "^1.2.0",
-    "@types/node": "^12.0.10",
-    "@types/jest": "^24.0.22",
-    "@types/react": "^16.8.22",
-    "@types/react-dom": "^16.8.4",
-    "@types/react-helmet": "^5.0.8",
-    "@types/react-test-renderer": "^16.9.1",
-    "@typescript-eslint/eslint-plugin": "^2.6.1",
-    "@typescript-eslint/parser": "^2.6.1",
-    "eslint": "^6.6.0",
-    "eslint-config-blvd": "^1.0.0",
-    "eslint-config-prettier": "^6.5.0",
-    "eslint-plugin-prettier": "^3.1.1",
-    "babel-jest": "^24.9.0",
-    "gh-pages": "^2.0.1",
-    "prettier": "^1.18.2",
-    "rimraf": "^2.6.3",
+    "@types/jest": "^25.1.3",
+    "@types/node": "^13.7.4",
+    "@types/react": "^16.9.21",
+    "@types/react-dom": "^16.9.5",
+    "@types/react-helmet": "^5.0.15",
+    "@types/react-test-renderer": "^16.9.2",
+    "@typescript-eslint/eslint-plugin": "^2.20.0",
+    "@typescript-eslint/parser": "^2.20.0",
+    "cross-env": "^7.0.0",
+    "eslint": "^6.8.0",
+    "eslint-config-blvd": "^1.0.2",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "gh-pages": "^2.2.0",
+    "husky": "^4.2.3",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^25.1.0",
+    "lint-staged": "^10.0.7",
     "npm-run-all": "4.1.5",
-    "jest": "^24.9.0",
-    "identity-obj-proxy": "^3.0.0"
+    "prettier": "^1.19.1",
+    "rimraf": "^3.0.2"
   }
 }

@@ -12,7 +12,13 @@ const IndexLayout: React.FC = ({ children, ...props }) => {
 
   return (
     <>
-      <Helmet title="App Name" meta={[{ name: 'description', content: 'Desctiption' }, { name: 'keywords', content: 'keyword' }]} />
+      <Helmet
+        title="App Name"
+        meta={[
+          { name: 'description', content: 'Desctiption' },
+          { name: 'keywords', content: 'keyword' }
+        ]}
+      />
       {children}
       <Loading active={loading} />
       <style global jsx>{`
