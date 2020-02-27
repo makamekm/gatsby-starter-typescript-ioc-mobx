@@ -30,7 +30,6 @@ const IndexLayout: React.FC = ({ children, ...props }) => {
           color: #4a4a4a;
           max-width: 100vw;
           min-width: 100vw;
-          overflow: hidden;
         }
       `}</style>
     </>
