@@ -16,7 +16,7 @@ const IndexLayout: React.FC = ({ children, ...props }) => {
         title="App Name"
         meta={[
           { name: 'description', content: 'Desctiption' },
-          { name: 'keywords', content: 'keyword' }
+          { name: 'keywords', content: 'keyword' },
         ]}
       />
       {children}

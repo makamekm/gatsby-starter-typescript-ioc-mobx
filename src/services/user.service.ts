@@ -11,7 +11,7 @@ export class UserService implements IRootService {
   @observable private data: {
     user: IUser;
   } = {
-    user: null
+    user: null,
   };
 
   @computed get user() {
@@ -41,7 +41,7 @@ export class UserService implements IRootService {
     // TODO: Here you can make auth
     this.data.user = {
       id: -1,
-      email: 'user@mail.com'
+      email: 'user@mail.com',
     };
 
     this.setLoading(false);

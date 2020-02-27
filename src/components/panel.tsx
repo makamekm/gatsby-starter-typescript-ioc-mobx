@@ -19,5 +19,5 @@ export const Panel = React.memo(
         `}</style>
       </div>
     );
-  }
+  },
 );
