@@ -1,6 +1,11 @@
 {
   "parser": "@typescript-eslint/parser",
-  "extends": ["eslint-config-blvd/react", "prettier/@typescript-eslint", "prettier/react", "plugin:prettier/recommended"],
+  "extends": [
+    "eslint-config-blvd/react",
+    "prettier/@typescript-eslint",
+    "prettier/react",
+    "plugin:prettier/recommended"
+  ],
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module",
@@ -15,10 +20,10 @@
   },
   "rules": {
     "no-use-before-define": "off",
-    "jsx-ally/click-events-have-key-events": "off",
-    "jsx-ally/no-static-element-interactions": "off",
-    "jsx-ally/alt-text": "off",
-    "jsx-ally/label-has-associated-control": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/alt-text": "off",
+    "jsx-a11y/label-has-associated-control": "off",
     "react/button-has-type": "off",
     "no-param-reassign": "off",
     "no-useless-concat": "off",
@@ -29,9 +34,20 @@
     "no-plusplus": "off",
     "react/no-danger": "off",
     "react/jsx-props-no-spreading": "off",
-    "comma-dangle": ["error", "always-multiline"],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
     "@typescript-eslint/no-unused-vars": "off",
-    "max-len": ["error", { "code": 140, "ignoreUrls": true, "ignoreStrings": true, "ignoreTemplateLiterals": true }],
+    "max-len": [
+      "error",
+      {
+        "code": 140,
+        "ignoreUrls": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true
+      }
+    ],
     "import/prefer-default-export": "off",
     "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/no-explicit-any": "off",
@@ -39,7 +55,20 @@
     "react/no-unescaped-entities": [
       "error",
       {
-        "forbid": [{ "char": ">", "alternatives": ["&gt;"] }, { "char": "}", "alternatives": ["&#125;"] }]
+        "forbid": [
+          {
+            "char": ">",
+            "alternatives": [
+              "&gt;"
+            ]
+          },
+          {
+            "char": "}",
+            "alternatives": [
+              "&#125;"
+            ]
+          }
+        ]
       }
     ]
   }
